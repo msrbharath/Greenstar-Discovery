@@ -1,13 +1,15 @@
 info:
   component: Edge Server
   
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    restart:
+      enabled: true
+    shutdown:
+      enabled: true
+    
 
 zuul:
   prefix: /api
@@ -15,6 +17,9 @@ zuul:
     user: 
       path: /user/**
       serviceId: user-service
+    auth: 
+      path: /auth/**
+      serviceId: auth-service
        
 
 ribbon:
@@ -34,3 +39,4 @@ logging:
   level:
     ROOT: INFO
     org.springframework.web: DEBUG
+    com.cognizant.outreach: INFO
