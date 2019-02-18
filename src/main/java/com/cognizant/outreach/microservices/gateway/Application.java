@@ -17,6 +17,7 @@ package com.cognizant.outreach.microservices.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 import com.cognizant.outreach.microservices.gateway.filter.PreFilter;
@@ -27,6 +28,7 @@ import com.cognizant.outreach.microservices.gateway.filter.PreFilter;
  * @author 371793
  */
 @SpringBootApplication
+@EnableFeignClients
 @EnableZuulProxy
 public class Application {
 

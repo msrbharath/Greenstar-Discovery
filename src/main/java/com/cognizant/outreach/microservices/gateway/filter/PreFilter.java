@@ -21,10 +21,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.cognizant.outreach.microservices.gateway.client.SecurityClient;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+
+import feign.FeignException;
 
 /**
  * Zuul pre filter authentication to check security
@@ -52,7 +55,7 @@ protected Logger logger = LoggerFactory.getLogger(ZuulFilter.class);
   public boolean shouldFilter() {
 	RequestContext ctx = RequestContext.getCurrentContext();
 	String requestURL = ctx.getRequest().getRequestURL().toString();
-	if(requestURL.toLowerCase().contains("/api/auth")) {
+	if(requestURL.toLowerCase().contains("/api/auth/")) {
 		 logger.info("Authentication required for this request ==> {}",requestURL);
 		 return true;
 	}
@@ -66,10 +69,25 @@ protected Logger logger = LoggerFactory.getLogger(ZuulFilter.class);
     String apiToken = request.getHeader("apitoken");
     String userId = request.getHeader("userid");
     // If API token is empty or expired then stop proceeding and return unauthorized
-    if(!StringUtils.isEmpty(apiToken) || 
-    		!securityClient.validateAPIToken(apiToken, userId).getStatusCode().equals(HttpStatus.ACCEPTED)) {
+    boolean invalidToken = StringUtils.isEmpty(apiToken);
+    if(!invalidToken) {
+    	try {
+    		ResponseEntity<String> responseEntity = securityClient.validateAPIToken(apiToken, userId);
+    	    if(responseEntity.getStatusCode().value() != HttpStatus.ACCEPTED.value()) {
+    	    	invalidToken = true;
+    	    }
+    	}catch(FeignException feignException) {
+    		invalidToken = true;
+    		if(feignException.status() == HttpStatus.UNAUTHORIZED.value()) {
+    			ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+    		}else {
+    			ctx.setResponseStatusCode(HttpStatus.EXPECTATION_FAILED.value());
+    		}
+    	}
+    }
+    	
+    if(invalidToken) {
     	ctx.setSendZuulResponse(false);
-    	ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
     	ctx.setResponseBody("Invalid or expired API token");
     	logger.debug("API token is expired or invalid token ==> {} ",apiToken);
     }

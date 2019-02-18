@@ -15,10 +15,10 @@ zuul:
   prefix: /api
   routes:
     user: 
-      path: /auth/**
+      path: /auth/user/**
       serviceId: user-service
-    auth: 
-      path: /**
+    security: 
+      path: /security/**
       serviceId: security-service
        
 
