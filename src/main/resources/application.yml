@@ -15,11 +15,11 @@ zuul:
   prefix: /api
   routes:
     user: 
-      path: /user/**
+      path: /auth/**
       serviceId: user-service
     auth: 
-      path: /auth/**
-      serviceId: auth-service
+      path: /**
+      serviceId: security-service
        
 
 ribbon:
@@ -40,3 +40,4 @@ logging:
     ROOT: INFO
     org.springframework.web: DEBUG
     com.cognizant.outreach: INFO
+  file: api-gateway.log
