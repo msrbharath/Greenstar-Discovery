@@ -14,6 +14,9 @@
  */
 package com.cognizant.outreach.microservices.gateway.filter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.cognizant.outreach.microservices.gateway.client.SecurityClient;
+import com.cognizant.outreach.microservices.gateway.client.User;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
@@ -72,7 +76,13 @@ protected Logger logger = LoggerFactory.getLogger(ZuulFilter.class);
     boolean invalidToken = StringUtils.isEmpty(apiToken);
     if(!invalidToken) {
     	try {
-    		ResponseEntity<String> responseEntity = securityClient.validateAPIToken(apiToken, userId);
+    		Map<String, String> params = new HashMap<>();
+    		params.put("apitoken", apiToken);
+    		params.put("userid", userId);
+    		User user = new User();
+    		user.setApiToken(apiToken);
+    		user.setUserId(userId);
+    		ResponseEntity<String> responseEntity = securityClient.validateAPIToken(user);
     	    if(responseEntity.getStatusCode().value() != HttpStatus.ACCEPTED.value()) {
     	    	invalidToken = true;
     	    }
@@ -93,5 +103,4 @@ protected Logger logger = LoggerFactory.getLogger(ZuulFilter.class);
     }
     return null;
   }
-
 }

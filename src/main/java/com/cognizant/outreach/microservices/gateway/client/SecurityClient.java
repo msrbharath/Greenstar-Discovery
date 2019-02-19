@@ -16,9 +16,9 @@ package com.cognizant.outreach.microservices.gateway.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * To consume security service
@@ -31,12 +31,10 @@ public interface SecurityClient {
 	/**
 	 * To validate the provided api token is valid or not
 	 * 
-	 * @param apiToken
-	 * @param userId
+	 * @param user
 	 * @return  HttpStatus.ACCEPTED if valid and HttpStatus.UNAUTHORIZED for not a valid token
 	 */
     @RequestMapping(method = RequestMethod.POST, path="/security/validatetoken")
-    ResponseEntity<String> validateAPIToken(@RequestParam(value = "apitoken", required = true) String apiToken,
-			@RequestParam(value = "userid", required = true) String userId);
+    public ResponseEntity<String> validateAPIToken(@RequestBody User user);
   
 }
