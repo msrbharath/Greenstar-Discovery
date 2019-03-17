@@ -24,13 +24,11 @@ zuul:
       path: /perfdata/**
       serviceId: perfdata-service
   host:
-    connect-timeout-millis: 100000 ## TODO this need to be changed to 5 secs before prod deployment      
-
-# Enable ribbon as this has a client consumes security service
-ribbon:
-  eureka:
-    enabled: true
-
+    connect-timeout-millis: 30000 
+    socket-timeout-millis: 30000
+    connection-request-timeout-millis: 30000
+    
+ 
 eureka:
   client:
     serviceUrl:
