@@ -34,7 +34,7 @@ public interface SecurityClient {
 	 * @param user
 	 * @return  HttpStatus.ACCEPTED if valid and HttpStatus.UNAUTHORIZED for not a valid token
 	 */
-    @RequestMapping(method = RequestMethod.POST, path="/security/validatetoken")
+    @RequestMapping(method = RequestMethod.POST, path="/validatetoken")
     public ResponseEntity<String> validateAPIToken(@RequestBody User user);
   
 }
