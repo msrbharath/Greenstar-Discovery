@@ -17,6 +17,9 @@ zuul:
     security: 
       path: /security/**
       serviceId: security-service
+    admin:
+      path: /admin/**
+      serviceId: security-service
     school: 
       path: /school/**
       serviceId: school-service
