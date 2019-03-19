@@ -28,7 +28,7 @@ node {
             bat label: 'Stop/Remove if exists', returnStatus: true, script: 'dockerx stop greenstarapp-gateway-service-docker && dockerx rm greenstarapp-gateway-service-docker'
         }
         stage('Docker Run') {
-            bat label: 'Docker Run', script: 'dockerx run --name=greenstarapp-gateway-service-docker --publish=8765:8765 -e eureka.client.serviceUrl.defaultZone="http://172.18.2.50:8761/eureka/" greenstarapp-gateway-service:latest'
+            bat label: 'Docker Run', script: 'dockerx run -d --name=greenstarapp-gateway-service-docker --publish=8765:8765 -e eureka.client.serviceUrl.defaultZone="http://172.18.2.50:8761/eureka/" greenstarapp-gateway-service:latest'
         }
     }
 }
