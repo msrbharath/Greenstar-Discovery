@@ -12,6 +12,9 @@ management:
     
 
 zuul:
+  ribbon:
+    eager-load:
+      enabled: true
   prefix: /api
   routes:
     security: 
