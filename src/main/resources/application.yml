@@ -9,7 +9,7 @@ management:
       enabled: true
     shutdown:
       enabled: true
-    
+
 
 zuul:
   ribbon:
@@ -30,11 +30,22 @@ zuul:
       path: /perfdata/**
       serviceId: perfdata-service
   host:
-    connect-timeout-millis: 30000 
-    socket-timeout-millis: 30000
-    connection-request-timeout-millis: 30000
-    
- 
+    connect-timeout-millis: 60000 
+    socket-timeout-millis: 60000
+    connection-request-timeout-millis: 60000
+
+hystrix: 
+  command: 
+    default: 
+      execution: 
+        isolation: 
+          thread: 
+            timeoutInMilliseconds: 60000
+ribbon: 
+  ReadTimeout: 60000
+  connection-timeout: 60000
+
+
 eureka:
   client:
     serviceUrl:
