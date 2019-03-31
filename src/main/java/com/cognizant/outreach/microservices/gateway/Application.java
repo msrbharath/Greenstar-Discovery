@@ -23,8 +23,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.cognizant.outreach.microservices.gateway.filter.PreFilter;
-
 /**
  * Spring boot application for gate way service
  * 
@@ -44,15 +42,15 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	/**
+/*	*//** TODO: This filter is disabled. All the authentication is handled in JWT authentication filter. Might be reused on SSO and LDAP else remove both filter class and bean
 	 * Implements the Zuul prefilter
 	 * 
 	 * @return prefilter instance
-	 */
+	 *//*
 	@Bean
 	public PreFilter preFilter() {
 		return new PreFilter();
-	}
+	}*/
 	
 	@Bean
 	public CorsFilter corsFilter() {
