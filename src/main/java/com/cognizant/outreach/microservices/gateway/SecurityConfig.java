@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  // To allow angular preflight options requests without authentication
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/security/login").permitAll()
+                .antMatchers("/api/admin/getassignedschools").hasRole("EVENT_POC")
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .antMatchers("api/perfdata/perfmetrics/dashboard/**").hasAnyRole("ADMIN","PMO")
                 .antMatchers("api/school/submitschool").hasAnyRole("ADMIN","PMO")
